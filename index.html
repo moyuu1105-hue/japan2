@@ -1,259 +1,1038 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>東京景點清單</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>東京・秋旅 2026 隨身手冊</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cream: '#FAF9F6',
+              terracotta: '#C86D51',
+              terracottaHover: '#B55D42',
+              lightOrange: '#FDF3EE',
+              greenBg: '#E8F5E9',
+              greenText: '#2E7D32',
+              cardBorder: '#ECEAE4',
+              subtleGray: '#8A8782'
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    :root {
-      --primary: #1a73e8;
-      --bg: #f8f9fa;
-      --card-bg: #ffffff;
-      --text: #202124;
-      --text-sub: #5f6368;
-      --border: #dadce0;
-      --tag-bg: #e8f0fe;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      padding: 32px 16px;
-      line-height: 1.5;
+      background-color: #FAF9F6;
+      color: #2D2B29;
+      font-family: "Noto Sans TC", -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
     }
-
-    header {
-      margin-bottom: 28px;
-      text-align: center;
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
-
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: var(--text-sub);
-      font-size: 0.95rem;
-    }
-
-    .grid {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    }
-
-    @media (min-width: 640px) {
-      .card {
-        flex-direction: row;
-      }
-    }
-
-    .card-img-wrap {
-      width: 100%;
-      height: 220px;
-      background: #eaeaea;
-      flex-shrink: 0;
-    }
-
-    @media (min-width: 640px) {
-      .card-img-wrap {
-        width: 240px;
-        height: auto;
-      }
-    }
-
-    .card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .card-body {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 1;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-      gap: 12px;
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .badge {
-      background: var(--tag-bg);
-      color: var(--primary);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      flex-shrink: 0;
-    }
-
-    .meta-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.9rem;
-      margin-bottom: 16px;
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .meta-label {
-      color: var(--text-sub);
-      font-weight: 500;
-      min-width: 65px;
-      flex-shrink: 0;
-    }
-
-    .meta-val {
-      color: var(--text);
-    }
-
-    .btn-map {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 14px;
-      background-color: var(--primary);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      align-self: flex-start;
-      transition: background 0.15s ease;
-    }
-
-    .btn-map:hover {
-      background-color: #1557b0;
+    .safe-bottom {
+      padding-bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col antialiased selection:bg-orange-100 selection:text-brand-terracotta">
 
-  <div class="container">
-    <header>
-      <h1>東京景點清單</h1>
-      <p class="subtitle">共 4 個景點資料</p>
-    </header>
+  <!-- 頂部標頭 Header (100% 依原版截圖風格) -->
+  <header class="sticky top-0 z-40 bg-[#FAF9F6]/95 backdrop-blur-md border-b border-stone-200/60 px-4 py-3 flex items-center justify-between transition-all">
+    <div class="flex items-center space-x-2.5">
+      <div class="w-8 h-8 rounded-full bg-[#F6E9E4] text-brand-terracotta flex items-center justify-center font-bold text-sm shadow-xs">
+        <i class="fa-solid fa-location-dot"></i>
+      </div>
+      <div>
+        <h1 class="text-sm font-bold text-stone-800 tracking-tight leading-tight">東京・秋旅 2026</h1>
+        <p class="text-[11px] text-stone-500 font-medium">11.18 - 11.22・隨身手冊</p>
+      </div>
+    </div>
 
-    <div class="grid" id="spots-container"></div>
+    <!-- 菊川住宿 綠色圓角膠囊按鈕 (點擊開彈窗查看住宿資訊) -->
+    <button onclick="toggleHotelModal(true)" class="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-brand-greenBg text-brand-greenText text-xs font-semibold hover:bg-green-100 active:scale-95 transition-all shadow-xs">
+      <i class="fa-solid fa-hotel text-[11px]"></i>
+      <span>菊川住宿</span>
+    </button>
+  </header>
+
+  <!-- 主內容容器 -->
+  <main class="flex-1 max-w-md mx-auto w-full px-4 pt-3 safe-bottom">
+
+    <!-- ======================================================== -->
+    <!-- 分頁一：每日行程 (預設首頁) -->
+    <!-- ======================================================== -->
+    <section id="tab-itinerary" class="space-y-4">
+      <!-- 天數膠囊切換列 -->
+      <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1">
+        <button onclick="switchDay(1)" data-day="1" class="day-tab-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium bg-brand-terracotta text-white shadow-xs transition-all">
+          D1 淺草/秋葉原
+        </button>
+        <button onclick="switchDay(2)" data-day="2" class="day-tab-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80 hover:bg-stone-50 transition-all">
+          D2 富士河口湖
+        </button>
+        <button onclick="switchDay(3)" data-day="3" class="day-tab-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80 hover:bg-stone-50 transition-all">
+          D3 銀杏/澀谷
+        </button>
+        <button onclick="switchDay(4)" data-day="4" class="day-tab-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80 hover:bg-stone-50 transition-all">
+          D4 銀座/鐵塔
+        </button>
+        <button onclick="switchDay(5)" data-day="5" class="day-tab-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80 hover:bg-stone-50 transition-all">
+          D5 採買/返程
+        </button>
+      </div>
+
+      <!-- 動態行程內容 (完全展開交通路線與行程時間軸) -->
+      <div id="day-content-container" class="space-y-3.5">
+        <!-- 由 JavaScript 動態完整渲染 -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 分頁二：美食餐廳 (依地區分 + 預約標記 + 人均價格) -->
+    <!-- ======================================================== -->
+    <section id="tab-restaurants" class="space-y-4 hidden">
+      <!-- 地區篩選列 -->
+      <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5">
+        <button onclick="filterRestaurants('all')" data-area="all" class="restaurant-area-btn px-3 py-1 rounded-full text-xs font-medium bg-brand-terracotta text-white shadow-xs">
+          全部地區
+        </button>
+        <button onclick="filterRestaurants('ueno')" data-area="ueno" class="restaurant-area-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80">
+          上野 / 淺草
+        </button>
+        <button onclick="filterRestaurants('tokyo-station')" data-area="tokyo-station" class="restaurant-area-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80">
+          東京車站
+        </button>
+        <button onclick="filterRestaurants('shibuya')" data-area="shibuya" class="restaurant-area-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80">
+          澀谷 / 原宿
+        </button>
+        <button onclick="filterRestaurants('ginza')" data-area="ginza" class="restaurant-area-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80">
+          銀座 / 日本橋
+        </button>
+      </div>
+
+      <!-- 餐廳清單容器 -->
+      <div id="restaurant-cards-container" class="space-y-3">
+        <!-- 依地區渲染 -->
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 分頁三：注意事項 (11/1 退稅新制與月台守則等) -->
+    <!-- ======================================================== -->
+    <section id="tab-notes" class="space-y-3.5 hidden">
+      <!-- 11/1 退稅新制卡片 (高亮醒目) -->
+      <div class="bg-white rounded-2xl p-4 border border-rose-200/80 shadow-xs relative overflow-hidden">
+        <div class="absolute -right-4 -top-4 w-16 h-16 bg-rose-50 rounded-full flex items-end justify-start p-3 opacity-60">
+          <i class="fa-solid fa-receipt text-rose-500 text-xl"></i>
+        </div>
+        <div class="flex items-center space-x-2 text-rose-600 mb-2">
+          <i class="fa-solid fa-triangle-exclamation text-sm"></i>
+          <h2 class="font-bold text-sm">11/1 日本退稅新制（本次行程全程適用）</h2>
+        </div>
+        <div class="space-y-2 text-xs text-stone-600 leading-relaxed">
+          <p class="font-medium text-stone-800">• 日本免稅自 2026/11/1 起改為「退稅制」：購買時先付含稅價，離境成田機場再辦手續取回稅金，沒有過渡期。</p>
+          <p>• 購物時需出示護照，單一店家同日購買免稅品需達 <strong class="text-stone-800">¥5,000 以上</strong>。</p>
+          <p>• 新制不再要求把商品放入密封袋，消耗品 ¥500,000 上限也取消，但<span class="text-rose-600 font-semibold">免稅品在日本境內嚴禁拆封使用</span>。</p>
+          <p>• 離境時在成田機場讓海關確認所購商品才能取得退款，<span class="underline underline-offset-2 font-semibold text-stone-800">務必在托運行李前先至海關辦理查驗</span>。</p>
+          <p class="bg-rose-50 p-2.5 rounded-xl text-rose-800 font-medium">
+            ✈️ 11/22 班機 13:00 起飛，建議於 <strong class="underline font-bold">10:00 前</strong> 抵達成田機場，若有大量免稅品可再提早！
+          </p>
+          <p>• 收據、護照與商品請放在隨身可取處；購買貴重或大型商品前，請先向店員確認是否為合格免稅店。</p>
+        </div>
+      </div>
+
+      <!-- 搭車與月台守則 -->
+      <div class="bg-white rounded-2xl p-4 border border-brand-cardBorder shadow-xs">
+        <div class="flex items-center space-x-2 text-stone-800 mb-2.5">
+          <div class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xs">
+            <i class="fa-solid fa-train-subway"></i>
+          </div>
+          <h2 class="font-bold text-sm">搭車與月台生存守則</h2>
+        </div>
+        <div class="space-y-2 text-xs text-stone-600 leading-relaxed">
+          <p><strong class="text-stone-800">• 東京 Metro 與 都營地下鐵為不同公司：</strong> 兩者間轉乘會多收一段車資，請走標示「乗換」的通道。</p>
+          <p><strong class="text-stone-800">• 先認路線顏色與終點站：</strong> 再找月台號碼；出口標示 A1、B3 等請在入站前或車廂內確認。</p>
+          <div class="p-2.5 bg-amber-50 rounded-xl text-amber-900 border border-amber-200/60 font-medium space-y-1">
+            <p class="font-bold">⚠️ 新宿線與京王線直通月台方向注意：</p>
+            <p>• 「往橋本 / 新宿」＝ 西行進市區方向（淺草轉乘、新宿、表參道）。</p>
+            <p>• 「往本八幡」＝ 東行反方向，若搭錯請於下一站下車換回對面月台。</p>
+          </div>
+          <p><strong class="text-stone-800">• 急行 vs 各停：</strong> 同一路線可能有急行與各停之分，搭乘前請看電子看板的列車種別與停靠站。</p>
+          <p><strong class="text-stone-800">• 避開通勤尖峰：</strong> 平日 07:30–09:30 與 17:30–19:30 人潮最擠，大行李盡量避開，11/18 行李請先寄放菊川 7-11。</p>
+          <p><strong class="text-stone-800">• 11/19 富士山清晨車次：</strong> 凌晨出發班距較長，請預留 10 分鐘彈性時間抵達東京站。</p>
+        </div>
+      </div>
+
+      <!-- 入境證件、天氣穿搭與禮儀 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- 天氣穿搭 -->
+        <div class="bg-white rounded-2xl p-4 border border-brand-cardBorder shadow-xs">
+          <div class="flex items-center space-x-2 text-amber-700 mb-2">
+            <i class="fa-solid fa-temperature-half text-sm"></i>
+            <h3 class="font-bold text-xs">11月氣溫與穿搭</h3>
+          </div>
+          <p class="text-xs text-stone-600 leading-relaxed">
+            • 東京約 9–17°C，早晚涼、室內暖氣強，建議採洋蔥式穿法。<br>
+            • 11/19 河口湖約 3–13°C，請穿保暖外套、配戴手套與毛帽。<br>
+            • 新倉山淺間公園有約 398 階階梯，務必穿著好走球鞋。
+          </p>
+        </div>
+
+        <!-- 證件與通訊 -->
+        <div class="bg-white rounded-2xl p-4 border border-brand-cardBorder shadow-xs">
+          <div class="flex items-center space-x-2 text-emerald-700 mb-2">
+            <i class="fa-solid fa-passport text-sm"></i>
+            <h3 class="font-bold text-xs">證件、電器與票卡</h3>
+          </div>
+          <p class="text-xs text-stone-600 leading-relaxed">
+            • 護照效期 6 個月以上；出發前填妥 Visit Japan Web 快速通關。<br>
+            • 電壓 100V 扁插同台灣；行動電源隨身帶上飛機，嚴禁托運。<br>
+            • 手機綁定 Suica/PASMO 即可；部分攤販小店需備少量日圓現金。
+          </p>
+        </div>
+      </div>
+
+      <!-- 電車禮儀與緊急聯絡電話 -->
+      <div class="bg-white rounded-2xl p-3.5 border border-brand-cardBorder shadow-xs flex flex-wrap items-center justify-between text-xs gap-2">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-phone-volume text-rose-500"></i>
+          <span class="font-semibold text-stone-800">緊急聯絡：</span>
+          <span class="text-stone-600">警察 110</span>
+          <span class="text-stone-600">火警救護 119</span>
+        </div>
+        <div>
+          <a href="tel:+81332807811" class="text-brand-terracotta underline font-medium">駐日經濟文化代表處</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- 分頁四：隨身備忘 (100% 依原版截圖風格) -->
+    <!-- ======================================================== -->
+    <section id="tab-checklist" class="space-y-3.5 hidden">
+      <!-- 頂部備忘卡片面板 -->
+      <div class="bg-white rounded-2xl p-4 border border-brand-cardBorder shadow-xs space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="flex items-center space-x-1.5 text-stone-800">
+              <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
+              <h2 class="font-bold text-sm">隨身備忘＆採購清單</h2>
+            </div>
+            <p class="text-[11px] text-stone-400 mt-0.5">點擊勾選自動儲存，長按或點垃圾桶可刪除</p>
+          </div>
+          <!-- 快捷工具按鈕 -->
+          <div class="flex items-center space-x-1.5">
+            <button onclick="openNotionLink()" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-medium flex items-center space-x-1">
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              <span>Notion</span>
+            </button>
+            <button onclick="exportJSON()" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-medium flex items-center space-x-1">
+              <i class="fa-solid fa-code text-[10px]"></i>
+              <span>JSON</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 類別篩選膠囊 -->
+        <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pt-1">
+          <button onclick="filterChecklist('all')" data-cat="all" class="check-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-brand-terracotta text-white shadow-xs">
+            全部
+          </button>
+          <button onclick="filterChecklist('general')" data-cat="general" class="check-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80">
+            一般備忘
+          </button>
+          <button onclick="filterChecklist('shopping')" data-cat="shopping" class="check-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80">
+            🛍️ 購物清單
+          </button>
+          <button onclick="filterChecklist('photo')" data-cat="photo" class="check-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80">
+            🎬 拍攝構想
+          </button>
+        </div>
+      </div>
+
+      <!-- 新增備忘列 -->
+      <div class="flex items-center space-x-2">
+        <select id="new-item-cat" class="px-2.5 py-2.5 bg-white border border-stone-200/80 rounded-2xl text-xs text-stone-700 font-medium focus:outline-none">
+          <option value="general">一般</option>
+          <option value="shopping">購物</option>
+          <option value="photo">拍攝</option>
+        </select>
+        <input type="text" id="new-item-input" placeholder="新增項目..." class="flex-1 px-3.5 py-2.5 bg-white border border-stone-200/80 rounded-2xl text-xs text-stone-800 placeholder-stone-400 focus:outline-none focus:border-brand-terracotta">
+        <button onclick="addNewChecklistItem()" class="px-4 py-2.5 bg-brand-terracotta hover:bg-brand-terracottaHover text-white rounded-2xl text-xs font-medium shadow-xs active:scale-95 transition-all">
+          新增
+        </button>
+      </div>
+
+      <!-- 備忘項目清單列表 -->
+      <div id="checklist-items-container" class="space-y-2">
+        <!-- JS 動態渲染清單項目 -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================== -->
+  <!-- 底部固定導航欄 (動態突出/平整核心邏輯) -->
+  <!-- ======================================================== -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/70 py-2 px-3 transition-all">
+    <div class="max-w-md mx-auto flex items-center justify-around relative">
+
+      <!-- 1. 美食餐廳 -->
+      <button onclick="switchTab('restaurants')" id="nav-btn-restaurants" class="nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors">
+        <i class="fa-solid fa-utensils text-base mb-1"></i>
+        <span class="text-[11px] font-medium tracking-tight">美食餐廳</span>
+      </button>
+
+      <!-- 2. 每日行程 (中央按鈕：選中時向上突出懸浮球，切換到其他分頁時平整收回) -->
+      <div class="flex-1 flex justify-center">
+        <button onclick="switchTab('itinerary')" id="nav-btn-itinerary" class="nav-tab-btn flex flex-col items-center justify-center -top-5 relative w-12 h-12 rounded-full bg-brand-terracotta text-white shadow-lg ring-4 ring-white active:scale-95 transition-all duration-300 ease-out">
+          <i class="fa-solid fa-calendar-day text-base"></i>
+          <span class="text-[9px] font-bold mt-0.5 tracking-tight leading-none">行程</span>
+        </button>
+      </div>
+
+      <!-- 3. 注意事項 -->
+      <button onclick="switchTab('notes')" id="nav-btn-notes" class="nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors">
+        <i class="fa-solid fa-circle-exclamation text-base mb-1"></i>
+        <span class="text-[11px] font-medium tracking-tight">注意事項</span>
+      </button>
+
+      <!-- 4. 隨身備忘 -->
+      <button onclick="switchTab('checklist')" id="nav-btn-checklist" class="nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors">
+        <i class="fa-solid fa-clipboard-check text-base mb-1"></i>
+        <span class="text-[11px] font-medium tracking-tight">隨身備忘</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- 菊川住宿資訊彈窗 Modal -->
+  <div id="hotel-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 border border-stone-100 shadow-xl space-y-3.5">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-2.5">
+        <div class="flex items-center space-x-2">
+          <span class="w-7 h-7 rounded-full bg-green-50 text-emerald-700 flex items-center justify-center text-xs">
+            <i class="fa-solid fa-house-chimney"></i>
+          </span>
+          <h3 class="font-bold text-sm text-stone-800">菊川住宿資訊 (SRS)</h3>
+        </div>
+        <button onclick="toggleHotelModal(false)" class="text-stone-400 hover:text-stone-600 text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="text-xs text-stone-600 space-y-2 leading-relaxed">
+        <p><strong class="text-stone-800">鄰近車站：</strong> 都營新宿線「菊川站」（A3/A4 電梯出口步行約 3-4 分鐘）。</p>
+        <p><strong class="text-stone-800">行李寄放：</strong> 菊川 7-11（透過 ecbo cloak 預約寄放，約 ¥1,600/日）。</p>
+        <div class="p-2.5 bg-stone-50 rounded-xl text-stone-700 space-y-1">
+          <p class="font-semibold text-stone-800">• 往新宿/澀谷/市區方向：</p>
+          <p class="text-[11px]">認「往橋本／新宿」月台 (1號月台)</p>
+          <p class="font-semibold text-stone-800">• 反向往千葉方向：</p>
+          <p class="text-[11px]">「往本八幡」月台 (2號月台)</p>
+        </div>
+      </div>
+      <button onclick="toggleHotelModal(false)" class="w-full py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-2xl text-xs font-semibold transition-colors">
+        關閉視窗
+      </button>
+    </div>
   </div>
 
+  <!-- JavaScript 核心程式碼 -->
   <script>
-    // 嵌入您的 JSON 資料，直接保留 Base64 照片與備註
-    const spotsData = [
-  {
-    "id": "custom-1793893184665",
-    "name": "六本木點燈",
-    "region": "tokyo",
-    "address": "Louis Vuitton, 櫸樹坂, 六本木六丁目, 六本木, 港區, 东京都/東京都, 106-0032, 日本",
-    "lat": 35.658951,
-    "lng": 139.730176,
-    "lens": "",
-    "bestTime": "四點要去卡位",
-    "notes": "",
-    "images": [
-      "data:image/jpeg;base64,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BRRRQAUUUUAFFFFABRRRQAVPbf8AHxF/vr/OoKntv+PiL/fX+dNAdbRRRWoBRRRQB//V+M6KKK2AKpaj/wAecn4fzFXapaj/AMecn4fzFAHMUUUViAUUUUAFFFFABRRTgKAG0U9hwDTKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACp7b/j4i/31/nUFT23/AB8Rf76/zpoDraKKK1AKKKKAP//W+M6KKK2AKpahzaSfh/MVdqnfjNo/4fzFJgczijFSbaXbWNwIcUu01LilpXAi2NS7KkoouMaFApwAoopDEIyMVCRg4qY00jd9RW1tCSKiiioAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAqe2/4+Iv99f51BU9t/wAfEX++v86aA62iiitQCiiigD//1/jOiiitgCql9/x6v+H8xVuql8M2r/h/MUnsBz2aKNh78U/Zx1rFQbAZminhelL0z7VoqMgGc0oVjUncDFL2zVqihXIwhpwjHennqBSZ4NaqlELiyIqx54qr0q7Ov7tQPWoPIY9xRKOugisw7imVdFu3QkVBLC0RGeQehrCUWhohooorMYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFT23/AB8Rf76/zqCp7b/j4i/31/nTQHW0UUVqAUUUUAf/0PjOiiitgCqt7/x6v+H8xVqqt7/x7P8Ah/MU1uBhZy1NHelH3qav8QrZrYkcO1KO9GORS461QC9xR1Bo/i/CjtVAL3FIAcGl70fwmm0A+4OESqeT61cu/upVMVnPRgIc1pR7Jl+ySYywyh/2v/r1n7TUsqHeCDyAKlXWoFV0aNijjBHBplalzi5iWX/lsvDY7j1rLrnnDlYwooorMYUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFA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"
-    ]
-  }
-];
+    // ==========================================
+    // 1. 安全 LocalStorage 存取 (相容手機無痕/私密瀏覽)
+    // ==========================================
+    function safeStorageGet(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    }
+    function safeStorageSet(key, value) {
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        // 忽略無痕模式安全性限制
+      }
+    }
 
-    const container = document.getElementById('spots-container');
+    // ==========================================
+    // 2. 每日行程詳細資料 (完全不省略展開)
+    // ==========================================
+    const ITINERARY_DATA = {
+      1: {
+        title: "11/18 (三)・初抵東京",
+        badge: "紅眼班機出發",
+        subtitle: "淺草老街漫步・秋葉原動漫巡禮・上野一頭牛",
+        events: [
+          {
+            time: "02:25 - 06:30",
+            title: "桃園 ➔ 成田機場 ➔ 提領行李",
+            desc: "預計 07:30 出關，可在機場超商吃簡單飯糰早餐。",
+            transit: null
+          },
+          {
+            time: "07:44 - 08:35",
+            title: "前往菊川站寄放行李 (ecbo cloak)",
+            desc: "出菊川站走 A3/A4 電梯出口至 7-11 辦理 ecbo cloak 預約寄放 (¥1,600/日)，輕裝出發。",
+            transit: [
+              "① 京成Access特急 ➔ 押上站",
+              "② 半藏門線 (1號月台, 3分) ➔ 住吉站",
+              "③ 都營新宿線 (1號月台, 1分) ➔ 菊川站 (走 A3/A4 電梯出口)",
+              "★ 菊川站 7-11 預約之 ecbo cloak 寄物 (¥1,600/日)"
+            ]
+          },
+          {
+            time: "09:30 - 12:30",
+            title: "淺草雷門散步 ＆ 點心",
+            desc: "參拜淺草寺、被官稻荷神社。必吃：pain maison 鹽麵包、仲見世通小吃。",
+            transit: [
+              "交通：菊川新宿線 ➔ 馬喰橫山，走到東日本橋轉淺草線 (2號月台) 抵達淺草站。"
+            ]
+          },
+          {
+            time: "13:00 - 16:30",
+            title: "秋葉原電器動漫巡禮",
+            desc: "巡禮 Radio 會館（ラジオ会館）、Animate 秋葉原本店、駿河屋，體驗日本御宅文化與繁華外神田霓虹街道。",
+            transit: [
+              "交通：淺草搭銀座線至末廣町站 (1/3號出口)，直通秋葉原中央通北端。"
+            ]
+          },
+          {
+            time: "17:00 - 19:00",
+            title: "晚餐：一頭牛燒肉 房家 (上野六丁目店)",
+            desc: "✅ 已確認預約 (人均約 ¥5,000 - ¥8,000)。嚴選 A5 頂級整頭黑毛和牛買進、稀有部位盛合拼盤、手打冷麵。",
+            transit: [
+              "交通：從秋葉原步行約 10 分鐘，或搭 JR 山手線 1 站至御徒町站步行 2 分鐘抵達。"
+            ]
+          },
+          {
+            time: "19:30 - 21:00",
+            title: "阿美橫丁採購 ＆ 返回菊川 Check-in",
+            desc: "二木之菓子採買伴手禮、逛藥妝店；返回菊川 7-11 取回行李，前往 SRS 菊川辦理入住手續休息。",
+            transit: [
+              "交通：上野御徒町搭乘都營大江戶線至清澄白河，轉半藏門線至住吉，再轉新宿線回菊川站。"
+            ]
+          }
+        ]
+      },
+      2: {
+        title: "11/19 (四)・富士山仙境",
+        badge: "清晨出發・防寒",
+        subtitle: "富士河口湖絕景一日遊・東京車站一番街",
+        events: [
+          {
+            time: "06:00 - 07:15",
+            title: "晨間出發前往東京車站集合",
+            desc: "清晨地鐵班次稍疏，請務必於 07:20 前抵達東京站丸之內北口集合點核對憑證。",
+            transit: [
+              "交通：菊川站 (都營新宿線 1號月台往橋本/新宿方向) ➔ 神保町站，同月台對面轉乘半藏門線 ➔ 大手町/東京站地下連通道步行至丸之內北口。"
+            ]
+          },
+          {
+            time: "07:30 - 17:30",
+            title: "河口湖一日遊專車名勝巡遊",
+            desc: "新倉山淺間公園（挑戰 398 階階梯拍攝忠靈塔富士同框，穿好走的鞋、帶手套帽子防寒約 3-13°C）、日川時計店街景、忍野八海品嚐湧泉水、大石公園與楓葉迴廊。",
+            transit: null
+          },
+          {
+            time: "18:00 - 20:30",
+            title: "返回東京車站一番街 ＆ 晚餐",
+            desc: "專車送回東京站。晚餐品嚐六厘舍濃厚魚介豚骨沾麵 (排隊約 20-30 分鐘，人均約 ¥1,100)；採購伴手禮（治一郎年輪蛋糕、NY Perfect Cheese）。",
+            transit: [
+              "交通：東京車站八重洲地下中央口直通東京一番街 B1 拉麵街。"
+            ]
+          },
+          {
+            time: "21:00",
+            title: "返回菊川住宿",
+            desc: "返回菊川好好休息，整理今日河口湖拍攝的美景照片。",
+            transit: [
+              "交通：東京站搭丸之內線至大手町，轉半藏門線至住吉，轉新宿線回菊川站。"
+            ]
+          }
+        ]
+      },
+      3: {
+        title: "11/20 (五)・金黃秋葉與潮人澀谷",
+        badge: "時尚逛街日",
+        subtitle: "明治神宮外苑銀杏・表參道・澀谷天際線與炭火燒肉",
+        events: [
+          {
+            time: "09:30 - 11:30",
+            title: "神宮外苑銀杏並木道散步",
+            desc: "漫步於長達 300 公尺的金黃銀杏隧道，秋季拍照黃金時段。",
+            transit: [
+              "交通：菊川站 (都營新宿線 1號月台) ➔ 青山一丁目站 (1號出口出站直通銀杏大道)。"
+            ]
+          },
+          {
+            time: "11:45 - 13:30",
+            title: "午餐/咖啡：neel 神宮前",
+            desc: "招牌梨子造型標誌、法式糖霜奶油可麗餅與超厚炸豬排三明治 (免預約/現場候位，人均約 ¥1,400)。",
+            transit: [
+              "交通：從銀杏大道散步約 12 分鐘進入神宮前商圈。"
+            ]
+          },
+          {
+            time: "13:30 - 16:30",
+            title: "表參道精品街 ＆ 原宿潮流漫步",
+            desc: "表參道之丘、Lululemon 表參道旗艦店、Kiddy Land、裏原宿潮牌店漫步採買。",
+            transit: null
+          },
+          {
+            time: "17:00 - 18:30",
+            title: "SHIBUYA SKY 展望台 (日落場)",
+            desc: "46 樓露天觀景台俯瞰澀谷十字路口、東京日落餘暉與繁華璀璨夜景。",
+            transit: [
+              "交通：從表參道搭乘銀座線直達澀谷站，直通 Shibuya Scramble Square 高樓。"
+            ]
+          },
+          {
+            time: "19:00 - 21:00",
+            title: "晚餐：炭火燒肉 Lily (澀谷店)",
+            desc: "✅ 已確認預約 (人均約 ¥6,000 - ¥9,000)。嚴選頂級厚切和牛、特選橫膈膜、炭火直烤與盛岡冷麵。",
+            transit: [
+              "交通：澀谷站八公口徒步約 6 分鐘抵達餐廳。"
+            ]
+          },
+          {
+            time: "21:30",
+            title: "返回菊川住宿",
+            desc: "回程搭車注意新宿線方向，安心返宿休息。",
+            transit: [
+              "交通：澀谷站搭乘半藏門線直達住吉站，同站轉都營新宿線 (往本八幡方向) 1 站抵達菊川。"
+            ]
+          }
+        ]
+      },
+      4: {
+        title: "11/21 (六)・摩登銀座與東京鐵塔",
+        badge: "都會光影",
+        subtitle: "銀座購物街・日本橋排隊炸豬排・六本木/東京鐵塔夜景",
+        events: [
+          {
+            time: "10:00 - 12:00",
+            title: "銀座中央通散策 ＆ 步行者天國",
+            desc: "漫步銀座中央通，巡禮銀座三越、GINZA SIX 屋頂花園遠眺、無印良品世界旗艦店。",
+            transit: [
+              "交通：菊川站搭新宿線至住吉轉半藏門線 ➔ 三越前/日本橋站；或搭新宿線至森下轉大江戶線至築地市場漫步至銀座。"
+            ]
+          },
+          {
+            time: "12:15 - 13:45",
+            title: "午餐：日本橋炸豬排 一 HAJIME",
+            desc: "超人氣爆汁厚切低溫慢炸熟成豬排、半熟滑蛋特上炸豬排丼 (現場排隊候位，人均約 ¥2,200)。",
+            transit: [
+              "交通：日本橋室町步行 3 分鐘。"
+            ]
+          },
+          {
+            time: "14:00 - 16:30",
+            title: "日本橋古蹟街道 ＆ 人形町散步",
+            desc: "造訪日本橋麒麟之翼雕像，散步至人形町老街品嚐鳴門鯛燒本舖天然鯛魚燒。",
+            transit: null
+          },
+          {
+            time: "17:00 - 20:30",
+            title: "芝公園鐵塔合影 ＆ 六本木之丘櫸樹坂通冬季點燈",
+            desc: "芝公園草坪拍攝經典東京鐵塔情侶剪影機位；隨後前往六本木之丘櫸樹坂通 (Keyakizaka) 欣賞藍白璀璨冬季點燈與鐵塔同框 (LV前天橋最佳視角)。",
+            transit: [
+              "交通：搭乘都營大江戶線至赤羽橋站 (芝公園/鐵塔)；後搭大江戶線或日比谷線至六本木站 (1C出口)。"
+            ]
+          },
+          {
+            time: "21:00",
+            title: "返回菊川整理行李",
+            desc: "為明日回程行李打包做準備，將所有免稅品、護照與消費明細收據集中整理好以備查驗。",
+            transit: [
+              "交通：六本木搭日比谷線至人形町，走聯絡通道至水天宮前轉半藏門線至住吉，轉新宿線回菊川。"
+            ]
+          }
+        ]
+      },
+      5: {
+        title: "11/22 (日)・滿載回憶返程",
+        badge: "回程退稅日",
+        subtitle: "菊川退房・成田機場辦理 11/1 退稅新制手續・返台",
+        events: [
+          {
+            time: "08:30 - 09:30",
+            title: "菊川退房與前往成田機場",
+            desc: "辦理 SRS 退房手續，提領所有行李，將免稅品收據與商品備妥於隨身背包中方便海關查驗。",
+            transit: [
+              "交通：菊川站搭新宿線 ➔ 馬喰橫山/東日本橋 ➔ 搭乘京成 Access 特急直達成田機場第一/第二航廈。"
+            ]
+          },
+          {
+            time: "10:00 前",
+            title: "抵達成田機場 (班機 13:00 起飛)",
+            desc: "⚠️ 重要：本次行程適用 2026/11/1 退稅新制，托運行李前務必先至海關查驗商品取得退款，避免排隊耽誤登機！",
+            transit: null
+          },
+          {
+            time: "10:00 - 12:00",
+            title: "成田機場海關驗貨退稅 ＆ 報到托運",
+            desc: "① 攜帶商品、護照與收據至海關退稅櫃檯查驗 ➔ ② 取得退款後至航空公司櫃檯托運行李 ➔ ③ 快速安檢通關，於免稅店進行最後採購。",
+            transit: null
+          },
+          {
+            time: "13:00",
+            title: "班機起飛返回台灣",
+            desc: "搭乘班機返回溫暖的家，平安結束美好豐富的秋季東京之旅！",
+            transit: null
+          }
+        ]
+      }
+    };
 
-    spotsData.forEach(spot => {
-      // 處理圖片，若無圖片則放預設圖
-      const imgSrc = (spot.images && spot.images.length > 0) ? spot.images[0] : '';
-      
-      // Google 地圖連結
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lng}`;
+    // ==========================================
+    // 3. 美食餐廳資料集 (依地區分類 + 預約標記 + 人均價格)
+    // ==========================================
+    const RESTAURANTS_DATA = [
+      {
+        id: "lily",
+        name: "炭火燒肉 Lily (澀谷店)",
+        area: "shibuya",
+        areaLabel: "澀谷/原宿 (D3)",
+        category: "精緻燒肉・晚餐",
+        booked: true,
+        bookBadgeText: "✅ 已確認預約",
+        price: "¥6,000 - ¥9,000 (約 NT$1,650)",
+        highlight: "極上黑毛和牛稀有部位、極致炭火直烤、厚切牛舌、盛岡冷麵。",
+        address: "東京都渋谷区道玄坂",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=炭火焼肉+Lily+渋谷"
+      },
+      {
+        id: "banya",
+        name: "一頭牛燒肉 房家 (上野六丁目店)",
+        area: "ueno",
+        areaLabel: "上野/淺草 (D1)",
+        category: "和牛燒肉・晚餐",
+        booked: true,
+        bookBadgeText: "✅ 已確認預約",
+        price: "¥5,000 - ¥8,000 (約 NT$1,400)",
+        highlight: "整頭黑毛和牛買進、稀有部位盛合拼盤、手打韓式冷麵。",
+        address: "東京都台東区上野6-6-6",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=房家+上野六丁目店"
+      },
+      {
+        id: "hajime",
+        name: "日本橋炸豬排 一 HAJIME",
+        area: "ginza",
+        areaLabel: "日本橋/銀座 (D4)",
+        category: "厚切炸豬排・午餐",
+        booked: false,
+        bookBadgeText: "現場候位 / TableCheck 部分預約",
+        price: "¥1,800 - ¥2,800 (約 NT$450)",
+        highlight: "超厚切低溫慢炸熟成豚、爆汁極上腰內肉、半熟特製滑蛋豬排丼。",
+        address: "東京都中央区日本橋室町1-13-9",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=日本橋とんかつ+一+HAJIME"
+      },
+      {
+        id: "rokurinsha",
+        name: "六厘舍 (東京車站店)",
+        area: "tokyo-station",
+        areaLabel: "東京車站一番街 (D2)",
+        category: "濃厚沾麵・晚餐",
+        booked: false,
+        bookBadgeText: "現場排隊／免預約",
+        price: "¥1,000 - ¥1,400 (約 NT$250)",
+        highlight: "超人氣魚介豚骨高湯沾麵、特製粗麵條嚼勁滿分，排隊約 20-30 分鐘。",
+        address: "東京駅一番街 B1F 拉麵街",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=六厘舎+東京駅一番街"
+      },
+      {
+        id: "neel",
+        name: "neel 神宮前",
+        area: "shibuya",
+        areaLabel: "神宮前/原宿 (D3)",
+        category: "咖啡輕食・午餐",
+        booked: false,
+        bookBadgeText: "現場排隊／免預約",
+        price: "¥1,200 - ¥2,000 (約 NT$350)",
+        highlight: "招牌可愛梨子標誌、法式糖霜奶油可麗餅、招牌炸豬排三明治。",
+        address: "東京都渋谷区神宮前2-19-2",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=neel+神宮前"
+      },
+      {
+        id: "pain-maison",
+        name: "pain maison 淺草店",
+        area: "ueno",
+        areaLabel: "淺草老街 (D1)",
+        category: "排隊烘焙點心",
+        booked: false,
+        bookBadgeText: "免預約／現場排隊",
+        price: "¥110 - ¥300 (約 NT$25)",
+        highlight: "元祖鹽可頌、松露鹽麵包，外脆內軟底層奶油香脆無比。",
+        address: "東京都台東区花川戸2-4-6",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=pain+maison+浅草店"
+      },
+      {
+        id: "abura",
+        name: "東京油組總本店 (銀座組)",
+        area: "ginza",
+        areaLabel: "銀座 (D4)",
+        category: "油拌麵・午晚餐",
+        booked: false,
+        bookBadgeText: "免預約／現場票券機",
+        price: "¥880 - ¥1,200 (約 NT$220)",
+        highlight: "特製秘傳醬汁、熱熱淋上辣油與白醋攪拌，洋蔥丁免費加到飽。",
+        address: "東京都中央区銀座6-4-16",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=東京油組総本店+銀座組"
+      }
+    ];
 
-      // 卡片 HTML 模板
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <div class="card-img-wrap">
-          ${imgSrc ? `<img src="${imgSrc}" alt="${spot.name}" class="card-img" loading="lazy">` : ''}
+    // ==========================================
+    // 4. 隨身備忘資料集
+    // ==========================================
+    const DEFAULT_CHECKLIST = [
+      { id: 1, cat: "general", text: "行前一週：預約菊川 7-11 ecbo cloak 行李寄放 (¥1,600/日)", done: false },
+      { id: 2, cat: "general", text: "11/19 河口湖一日遊憑證核對，當日 07:20 前東京站丸之內北口集合", done: false },
+      { id: 3, cat: "general", text: "11/20 澀谷炭火燒肉 Lily 提早確認預約時段 (已預約)", done: true },
+      { id: 4, cat: "general", text: "完成 Visit Japan Web 登錄並截圖入境 QR Code", done: false },
+      { id: 5, cat: "shopping", text: "Montbell 外套/羽絨背心比價採購", done: false },
+      { id: 6, cat: "shopping", text: "Lululemon 表參道旗艦店瑜珈褲", done: false },
+      { id: 7, cat: "photo", text: "六本木之丘 LV 前天橋拍攝東京鐵塔夜景 (長焦 70-200mm)", done: false }
+    ];
+
+    let currentChecklist = [];
+
+    // ==========================================
+    // 5. 導覽列與動態突出邏輯 (核心需求)
+    // ==========================================
+    function switchTab(tabId) {
+      // 1. 切換各區塊顯示隱藏
+      const tabs = ['itinerary', 'restaurants', 'notes', 'checklist'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (el) el.classList.toggle('hidden', t !== tabId);
+      });
+
+      // 2. 每日行程 (中央按鈕) 動態凸出/平整切換邏輯
+      const centerBtn = document.getElementById('nav-btn-itinerary');
+      if (tabId === 'itinerary') {
+        // 每日行程被選中：向上突出懸浮球、外圈光環
+        centerBtn.className = "nav-tab-btn flex flex-col items-center justify-center -top-5 relative w-12 h-12 rounded-full bg-brand-terracotta text-white shadow-lg ring-4 ring-white active:scale-95 transition-all duration-300 ease-out";
+        centerBtn.innerHTML = `
+          <i class="fa-solid fa-calendar-day text-base"></i>
+          <span class="text-[9px] font-bold mt-0.5 tracking-tight leading-none">行程</span>
+        `;
+      } else {
+        // 其他分頁被選中：每日行程按鈕立刻收回平整位置、不再搶視覺焦點
+        centerBtn.className = "nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors";
+        centerBtn.innerHTML = `
+          <i class="fa-solid fa-calendar-day text-base mb-1"></i>
+          <span class="text-[11px] font-medium tracking-tight">每日行程</span>
+        `;
+      }
+
+      // 3. 處理其他三個分頁按鈕的文字與圖示高亮
+      const sideTabs = ['restaurants', 'notes', 'checklist'];
+      sideTabs.forEach(t => {
+        const btn = document.getElementById(`nav-btn-${t}`);
+        if (!btn) return;
+        if (t === tabId) {
+          btn.classList.remove('text-stone-400');
+          btn.classList.add('text-brand-terracotta', 'font-semibold');
+        } else {
+          btn.classList.remove('text-brand-terracotta', 'font-semibold');
+          btn.classList.add('text-stone-400');
+        }
+      });
+
+      // 4. 若切換至美食或備忘時進行相應刷新
+      if (tabId === 'restaurants') {
+        filterRestaurants('all');
+      } else if (tabId === 'checklist') {
+        renderChecklist();
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // 6. 每日行程渲染模組 (完整呈現時間軸與轉乘卡片)
+    // ==========================================
+    function switchDay(dayNum) {
+      document.querySelectorAll('.day-tab-btn').forEach(btn => {
+        const d = parseInt(btn.getAttribute('data-day'));
+        if (d === dayNum) {
+          btn.className = "day-tab-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium bg-brand-terracotta text-white shadow-xs transition-all";
+        } else {
+          btn.className = "day-tab-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80 hover:bg-stone-50 transition-all";
+        }
+      });
+      renderDayContent(dayNum);
+    }
+
+    function renderDayContent(dayNum) {
+      const container = document.getElementById('day-content-container');
+      const data = ITINERARY_DATA[dayNum];
+      if (!data) return;
+
+      let html = `
+        <!-- 當日概述卡片 -->
+        <div class="bg-white rounded-2xl p-4 border border-brand-cardBorder shadow-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-brand-terracotta">${data.title}</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-orange-50 text-brand-terracotta border border-orange-100 text-[11px] font-medium">${data.badge}</span>
+          </div>
+          <h2 class="text-stone-800 font-bold text-sm mt-1.5">${data.subtitle}</h2>
         </div>
-        <div class="card-body">
-          <div>
-            <div class="card-header">
-              <h2 class="card-title">${spot.name}</h2>
-              <span class="badge">${spot.region}</span>
+
+        <!-- 時間軸列表 -->
+        <div class="relative pl-3 space-y-3 before:absolute before:left-1 before:top-3 before:bottom-3 before:w-0.5 before:bg-orange-200/60">
+      `;
+
+      data.events.forEach(evt => {
+        let transitHtml = '';
+        if (evt.transit && evt.transit.length > 0) {
+          transitHtml = `
+            <div class="mt-2.5 p-2.5 rounded-xl bg-[#F8F9FA] border border-stone-100 space-y-1">
+              ${evt.transit.map(t => `<div class="text-[11px] text-stone-600 leading-snug flex items-start space-x-1.5">
+                <i class="fa-solid fa-route text-brand-terracotta text-[10px] mt-0.5 shrink-0"></i>
+                <span>${t}</span>
+              </div>`).join('')}
             </div>
-            
-            <div class="meta-list">
-              <div class="meta-item">
-                <span class="meta-label">地址</span>
-                <span class="meta-val">${spot.address || '無'}</span>
-              </div>
-              ${spot.bestTime ? `
-              <div class="meta-item">
-                <span class="meta-label">最佳時間</span>
-                <span class="meta-val">${spot.bestTime}</span>
-              </div>` : ''}
-              ${spot.lens ? `
-              <div class="meta-item">
-                <span class="meta-label">推薦鏡頭</span>
-                <span class="meta-val">${spot.lens}</span>
-              </div>` : ''}
-              ${spot.notes ? `
-              <div class="meta-item">
-                <span class="meta-label">備註</span>
-                <span class="meta-val">${spot.notes}</span>
-              </div>` : ''}
+          `;
+        }
+
+        html += `
+          <div class="relative pl-4">
+            <!-- 時間點圓點 -->
+            <div class="absolute -left-[9px] top-3.5 w-2.5 h-2.5 rounded-full bg-brand-terracotta ring-4 ring-white shadow-xs"></div>
+            <!-- 卡片 -->
+            <div class="bg-white rounded-2xl p-3.5 border border-brand-cardBorder shadow-xs">
+              <span class="text-[11px] font-bold text-brand-terracotta">${evt.time}</span>
+              <h3 class="text-stone-800 font-bold text-xs sm:text-sm mt-0.5">${evt.title}</h3>
+              <p class="text-stone-500 text-xs mt-1 leading-relaxed">${evt.desc}</p>
+              ${transitHtml}
             </div>
           </div>
-          
-          <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="btn-map">
-            📍 在 Google 地圖開啟
-          </a>
+        `;
+      });
+
+      html += `</div>`;
+      container.innerHTML = html;
+    }
+
+    // ==========================================
+    // 7. 美食餐廳篩選與渲染
+    // ==========================================
+    function filterRestaurants(area) {
+      document.querySelectorAll('.restaurant-area-btn').forEach(btn => {
+        const a = btn.getAttribute('data-area');
+        if (a === area) {
+          btn.className = "restaurant-area-btn px-3 py-1 rounded-full text-xs font-medium bg-brand-terracotta text-white shadow-xs";
+        } else {
+          btn.className = "restaurant-area-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80";
+        }
+      });
+
+      const container = document.getElementById('restaurant-cards-container');
+      const filtered = area === 'all' ? RESTAURANTS_DATA : RESTAURANTS_DATA.filter(r => r.area === area);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-6 text-center text-xs text-stone-400">此區域暫無餐廳資料</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(r => `
+        <div class="bg-white rounded-2xl p-4 border border-brand-cardBorder shadow-xs space-y-2">
+          <!-- 上方標籤列 -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-1.5">
+              <span class="px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 text-[10px] font-medium">${r.category}</span>
+              <span class="text-[11px] text-stone-400">${r.areaLabel}</span>
+            </div>
+            <!-- 預約狀態徽章 -->
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${r.booked ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-stone-100 text-stone-500'}">
+              ${r.bookBadgeText}
+            </span>
+          </div>
+
+          <!-- 餐廳名稱與招牌 -->
+          <div>
+            <h3 class="text-sm font-bold text-stone-800">${r.name}</h3>
+            <p class="text-xs text-stone-600 mt-1 leading-relaxed">${r.highlight}</p>
+          </div>
+
+          <!-- 人均價格 -->
+          <div class="text-[11px] text-amber-800 bg-amber-50/70 px-2.5 py-1 rounded-lg flex items-center space-x-1 font-medium">
+            <i class="fa-solid fa-coins text-amber-600"></i>
+            <span>人均：${r.price}</span>
+          </div>
+
+          <!-- 地址與導航 -->
+          <div class="pt-1.5 flex items-center justify-between text-[11px] border-t border-stone-100">
+            <span class="text-stone-400 truncate max-w-[200px]"><i class="fa-solid fa-location-dot mr-1"></i>${r.address}</span>
+            <a href="${r.mapUrl}" target="_blank" rel="noopener" class="text-brand-terracotta hover:underline font-semibold flex items-center space-x-1">
+              <span>導航路線</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+            </a>
+          </div>
         </div>
-      `;
-      container.appendChild(card);
-    });
+      `).join('');
+    }
+
+    // ==========================================
+    // 8. 隨身備忘清單管理 (支援分類篩選與刪除)
+    // ==========================================
+    let currentFilterCat = 'all';
+
+    function initChecklistData() {
+      const saved = safeStorageGet('tokyo_checklist_items_2026');
+      if (saved) {
+        try {
+          currentChecklist = JSON.parse(saved);
+        } catch (e) {
+          currentChecklist = [...DEFAULT_CHECKLIST];
+        }
+      } else {
+        currentChecklist = [...DEFAULT_CHECKLIST];
+      }
+    }
+
+    function saveChecklist() {
+      safeStorageSet('tokyo_checklist_items_2026', JSON.stringify(currentChecklist));
+    }
+
+    function filterChecklist(cat) {
+      currentFilterCat = cat;
+      document.querySelectorAll('.check-filter-btn').forEach(btn => {
+        const c = btn.getAttribute('data-cat');
+        if (c === cat) {
+          btn.className = "check-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-brand-terracotta text-white shadow-xs";
+        } else {
+          btn.className = "check-filter-btn px-3 py-1 rounded-full text-xs font-medium bg-white text-stone-600 border border-stone-200/80";
+        }
+      });
+      renderChecklist();
+    }
+
+    function renderChecklist() {
+      const container = document.getElementById('checklist-items-container');
+      const filtered = currentFilterCat === 'all' 
+        ? currentChecklist 
+        : currentChecklist.filter(item => item.cat === currentFilterCat);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="p-6 text-center text-xs text-stone-400 bg-white rounded-2xl border border-dashed border-stone-200">此類別尚無備忘項目</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => {
+        let tag = '';
+        if (item.cat === 'shopping') {
+          tag = `<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-amber-50 text-amber-700 mr-1.5 shrink-0">購物</span>`;
+        } else if (item.cat === 'photo') {
+          tag = `<span class="px-1.5 py-0.5 rounded text-[10px] font-medium bg-indigo-50 text-indigo-700 mr-1.5 shrink-0">拍攝</span>`;
+        }
+
+        return `
+          <div class="bg-white rounded-2xl px-3.5 py-3 border border-brand-cardBorder shadow-xs flex items-center justify-between group transition-all">
+            <div class="flex items-center space-x-2.5 flex-1 min-w-0 pr-2 cursor-pointer" onclick="toggleCheckItem(${item.id})">
+              <input type="checkbox" ${item.done ? 'checked' : ''} class="w-4 h-4 rounded text-brand-terracotta accent-[#C86D51] cursor-pointer">
+              <div class="text-xs text-stone-800 min-w-0 flex items-center ${item.done ? 'line-through opacity-50' : ''}">
+                ${tag}
+                <span class="truncate">${item.text}</span>
+              </div>
+            </div>
+            <button onclick="deleteCheckItem(${item.id})" class="text-stone-300 hover:text-rose-500 p-1 transition-colors">
+              <i class="fa-regular fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleCheckItem(id) {
+      currentChecklist = currentChecklist.map(it => it.id === id ? { ...it, done: !it.done } : it);
+      saveChecklist();
+      renderChecklist();
+    }
+
+    function deleteCheckItem(id) {
+      currentChecklist = currentChecklist.filter(it => it.id !== id);
+      saveChecklist();
+      renderChecklist();
+    }
+
+    function addNewChecklistItem() {
+      const input = document.getElementById('new-item-input');
+      const catSelect = document.getElementById('new-item-cat');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const newItem = {
+        id: Date.now(),
+        cat: catSelect.value,
+        text: val,
+        done: false
+      };
+      currentChecklist.unshift(newItem);
+      saveChecklist();
+      input.value = '';
+      renderChecklist();
+    }
+
+    function exportJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentChecklist, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "tokyo_checklist.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function openNotionLink() {
+      window.open('https://app.notion.com/p/40d5e6cdbc4a80e18df0d2e07f9095ae?v=40d5e6cdbc4a80528d8a000c68958b06&source=copy_link', '_blank');
+    }
+
+    function toggleHotelModal(show) {
+      const modal = document.getElementById('hotel-modal');
+      if (modal) modal.classList.toggle('hidden', !show);
+    }
+
+    // ==========================================
+    // 9. 頁面啟動核心
+    // ==========================================
+    function initApp() {
+      initChecklistData();
+      renderDayContent(1);
+      filterRestaurants('all');
+      renderChecklist();
+      switchTab('itinerary');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
   </script>
 </body>
 </html>
