@@ -248,8 +248,12 @@
               <span>Notion</span>
             </button>
             <button onclick="exportJSON()" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-medium flex items-center space-x-1">
-              <i class="fa-solid fa-code text-[10px]"></i>
-              <span>JSON</span>
+              <i class="fa-solid fa-download text-[10px]"></i>
+              <span>匯出</span>
+            </button>
+            <button onclick="toggleImportModal(true)" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-medium flex items-center space-x-1">
+              <i class="fa-solid fa-file-import text-[10px]"></i>
+              <span>匯入</span>
             </button>
           </div>
         </div>
@@ -295,34 +299,40 @@
   <!-- ======================================================== -->
   <!-- 底部固定導航欄 (動態突出/平整核心邏輯) -->
   <!-- ======================================================== -->
-  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/70 py-2 px-3 transition-all">
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200/70 py-1.5 px-3 transition-all">
     <div class="max-w-md mx-auto flex items-center justify-around relative">
 
       <!-- 1. 美食餐廳 -->
-      <button onclick="switchTab('restaurants')" id="nav-btn-restaurants" class="nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors">
-        <i class="fa-solid fa-utensils text-base mb-1"></i>
-        <span class="text-[11px] font-medium tracking-tight">美食餐廳</span>
-      </button>
-
-      <!-- 2. 每日行程 (中央按鈕：選中時向上突出懸浮球，切換到其他分頁時平整收回) -->
       <div class="flex-1 flex justify-center">
-        <button onclick="switchTab('itinerary')" id="nav-btn-itinerary" class="nav-tab-btn flex flex-col items-center justify-center -top-5 relative w-12 h-12 rounded-full bg-brand-terracotta text-white shadow-lg ring-4 ring-white active:scale-95 transition-all duration-300 ease-out">
-          <i class="fa-solid fa-calendar-day text-base"></i>
-          <span class="text-[9px] font-bold mt-0.5 tracking-tight leading-none">行程</span>
+        <button onclick="switchTab('restaurants')" id="nav-btn-restaurants" class="nav-tab-btn flex flex-col items-center justify-center py-1 text-stone-400 hover:text-stone-600 transition-all duration-300">
+          <i class="fa-solid fa-utensils text-base mb-0.5"></i>
+          <span class="text-[11px] font-medium tracking-tight">美食餐廳</span>
+        </button>
+      </div>
+
+      <!-- 2. 每日行程 -->
+      <div class="flex-1 flex justify-center">
+        <button onclick="switchTab('itinerary')" id="nav-btn-itinerary" class="nav-tab-btn flex flex-col items-center justify-center py-1 text-stone-400 hover:text-stone-600 transition-all duration-300">
+          <i class="fa-solid fa-calendar-day text-base mb-0.5"></i>
+          <span class="text-[11px] font-medium tracking-tight">每日行程</span>
         </button>
       </div>
 
       <!-- 3. 注意事項 -->
-      <button onclick="switchTab('notes')" id="nav-btn-notes" class="nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors">
-        <i class="fa-solid fa-circle-exclamation text-base mb-1"></i>
-        <span class="text-[11px] font-medium tracking-tight">注意事項</span>
-      </button>
+      <div class="flex-1 flex justify-center">
+        <button onclick="switchTab('notes')" id="nav-btn-notes" class="nav-tab-btn flex flex-col items-center justify-center py-1 text-stone-400 hover:text-stone-600 transition-all duration-300">
+          <i class="fa-solid fa-circle-exclamation text-base mb-0.5"></i>
+          <span class="text-[11px] font-medium tracking-tight">注意事項</span>
+        </button>
+      </div>
 
       <!-- 4. 隨身備忘 -->
-      <button onclick="switchTab('checklist')" id="nav-btn-checklist" class="nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors">
-        <i class="fa-solid fa-clipboard-check text-base mb-1"></i>
-        <span class="text-[11px] font-medium tracking-tight">隨身備忘</span>
-      </button>
+      <div class="flex-1 flex justify-center">
+        <button onclick="switchTab('checklist')" id="nav-btn-checklist" class="nav-tab-btn flex flex-col items-center justify-center py-1 text-stone-400 hover:text-stone-600 transition-all duration-300">
+          <i class="fa-solid fa-clipboard-check text-base mb-0.5"></i>
+          <span class="text-[11px] font-medium tracking-tight">隨身備忘</span>
+        </button>
+      </div>
 
     </div>
   </nav>
@@ -354,6 +364,48 @@
       <button onclick="toggleHotelModal(false)" class="w-full py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-2xl text-xs font-semibold transition-colors">
         關閉視窗
       </button>
+    </div>
+  </div>
+
+  <!-- JSON 匯入彈窗 Modal -->
+  <div id="import-modal" class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 border border-stone-100 shadow-xl space-y-3.5">
+      <div class="flex items-center justify-between border-b border-stone-100 pb-2.5">
+        <div class="flex items-center space-x-2">
+          <span class="w-7 h-7 rounded-full bg-orange-50 text-brand-terracotta flex items-center justify-center text-xs">
+            <i class="fa-solid fa-file-import"></i>
+          </span>
+          <h3 class="font-bold text-sm text-stone-800">匯入清單 (JSON)</h3>
+        </div>
+        <button onclick="toggleImportModal(false)" class="text-stone-400 hover:text-stone-600 text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- 檔案上傳或直接貼上文字 -->
+      <div class="space-y-2 text-xs">
+        <div>
+          <label class="block text-stone-600 font-medium mb-1">方式 1：選擇本機 JSON 檔案</label>
+          <input type="file" id="json-file-input" accept=".json,application/json" onchange="handleFileSelect(event)" class="w-full text-xs text-stone-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-medium file:bg-stone-100 file:text-stone-700 hover:file:bg-stone-200 cursor-pointer">
+        </div>
+
+        <div class="pt-1">
+          <label class="block text-stone-600 font-medium mb-1">方式 2：貼上 JSON 內容</label>
+          <textarea id="json-paste-area" rows="4" placeholder='[{"text":"買伴手禮","cat":"shopping","done":false}]' class="w-full p-2.5 bg-stone-50 border border-stone-200/80 rounded-xl text-xs font-mono text-stone-800 focus:outline-none focus:border-brand-terracotta placeholder-stone-400 resize-none"></textarea>
+        </div>
+
+        <div id="import-msg" class="text-[11px] min-h-[16px] font-medium hidden"></div>
+      </div>
+
+      <!-- 操作按鈕 -->
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button onclick="executeImport(false)" class="py-2.5 bg-brand-lightOrange text-brand-terracotta border border-orange-200/60 hover:bg-orange-100 rounded-2xl text-xs font-bold transition-all active:scale-95">
+          合併至現有清單
+        </button>
+        <button onclick="executeImport(true)" class="py-2.5 bg-brand-terracotta hover:bg-brand-terracottaHover text-white rounded-2xl text-xs font-bold shadow-xs transition-all active:scale-95">
+          覆蓋全部替換
+        </button>
+      </div>
     </div>
   </div>
 
@@ -405,7 +457,7 @@
           },
           {
             time: "09:30 - 12:30",
-            title: "淺草雷門散步 ＆ 點心",
+            title: "淺草雷門散策 ＆ 點心",
             desc: "參拜淺草寺、被官稻荷神社。必吃：pain maison 鹽麵包、仲見世通小吃。",
             transit: [
               "交通：菊川新宿線 ➔ 馬喰橫山，走到東日本橋轉淺草線 (2號月台) 抵達淺草站。"
@@ -481,7 +533,7 @@
         events: [
           {
             time: "09:30 - 11:30",
-            title: "神宮外苑銀杏並木道散步",
+            title: "神宮外苑銀杏並木道散策",
             desc: "漫步於長達 300 公尺的金黃銀杏隧道，秋季拍照黃金時段。",
             transit: [
               "交通：菊川站 (都營新宿線 1號月台) ➔ 青山一丁目站 (1號出口出站直通銀杏大道)。"
@@ -722,6 +774,13 @@
     // ==========================================
     // 5. 導覽列與動態突出邏輯 (核心需求)
     // ==========================================
+    const TAB_CONFIG = {
+      restaurants: { icon: "fa-utensils", label: "美食" },
+      itinerary: { icon: "fa-calendar-day", label: "行程" },
+      notes: { icon: "fa-circle-exclamation", label: "注意" },
+      checklist: { icon: "fa-clipboard-check", label: "備忘" }
+    };
+
     function switchTab(tabId) {
       // 1. 切換各區塊顯示隱藏
       const tabs = ['itinerary', 'restaurants', 'notes', 'checklist'];
@@ -730,39 +789,29 @@
         if (el) el.classList.toggle('hidden', t !== tabId);
       });
 
-      // 2. 每日行程 (中央按鈕) 動態凸出/平整切換邏輯
-      const centerBtn = document.getElementById('nav-btn-itinerary');
-      if (tabId === 'itinerary') {
-        // 每日行程被選中：向上突出懸浮球、外圈光環
-        centerBtn.className = "nav-tab-btn flex flex-col items-center justify-center -top-5 relative w-12 h-12 rounded-full bg-brand-terracotta text-white shadow-lg ring-4 ring-white active:scale-95 transition-all duration-300 ease-out";
-        centerBtn.innerHTML = `
-          <i class="fa-solid fa-calendar-day text-base"></i>
-          <span class="text-[9px] font-bold mt-0.5 tracking-tight leading-none">行程</span>
-        `;
-      } else {
-        // 其他分頁被選中：每日行程按鈕立刻收回平整位置、不再搶視覺焦點
-        centerBtn.className = "nav-tab-btn flex flex-col items-center justify-center flex-1 py-1 text-stone-400 hover:text-stone-600 transition-colors";
-        centerBtn.innerHTML = `
-          <i class="fa-solid fa-calendar-day text-base mb-1"></i>
-          <span class="text-[11px] font-medium tracking-tight">每日行程</span>
-        `;
-      }
-
-      // 3. 處理其他三個分頁按鈕的文字與圖示高亮
-      const sideTabs = ['restaurants', 'notes', 'checklist'];
-      sideTabs.forEach(t => {
+      // 2. 動態將「當前選中的分頁按鈕」切換為圓圈微浮按鈕，其他分頁恢復平整
+      tabs.forEach(t => {
         const btn = document.getElementById(`nav-btn-${t}`);
         if (!btn) return;
+
         if (t === tabId) {
-          btn.classList.remove('text-stone-400');
-          btn.classList.add('text-brand-terracotta', 'font-semibold');
+          // 選中項目：自然微浮 (-translate-y-2.5)、磚橘紅圓形球、外白環與陰影
+          btn.className = "nav-tab-btn flex flex-col items-center justify-center w-11 h-11 rounded-full bg-brand-terracotta text-white shadow-md ring-4 ring-white -translate-y-2.5 active:scale-95 transition-all duration-300 ease-out";
+          btn.innerHTML = `
+            <i class="fa-solid ${TAB_CONFIG[t].icon} text-sm"></i>
+            <span class="text-[9px] font-bold mt-0.5 tracking-tight leading-none">${TAB_CONFIG[t].label}</span>
+          `;
         } else {
-          btn.classList.remove('text-brand-terracotta', 'font-semibold');
-          btn.classList.add('text-stone-400');
+          // 未選中項目：平整放鬆、柔和灰字
+          btn.className = "nav-tab-btn flex flex-col items-center justify-center py-1 text-stone-400 hover:text-stone-600 transition-all duration-300";
+          btn.innerHTML = `
+            <i class="fa-solid ${TAB_CONFIG[t].icon} text-base mb-0.5"></i>
+            <span class="text-[11px] font-medium tracking-tight">${t === 'restaurants' ? '美食餐廳' : t === 'itinerary' ? '每日行程' : t === 'notes' ? '注意事項' : '隨身備忘'}</span>
+          `;
         }
       });
 
-      // 4. 若切換至美食或備忘時進行相應刷新
+      // 3. 若切換至美食或備忘時進行相應刷新
       if (tabId === 'restaurants') {
         filterRestaurants('all');
       } else if (tabId === 'checklist') {
@@ -1006,6 +1055,76 @@
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
+    }
+
+    // JSON 匯入視窗與處理邏輯
+    function toggleImportModal(show) {
+      const modal = document.getElementById('import-modal');
+      const msg = document.getElementById('import-msg');
+      if (modal) {
+        modal.classList.toggle('hidden', !show);
+        if (show) {
+          document.getElementById('json-paste-area').value = '';
+          document.getElementById('json-file-input').value = '';
+          if (msg) msg.classList.add('hidden');
+        }
+      }
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('json-paste-area').value = e.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    function executeImport(overwrite) {
+      const text = document.getElementById('json-paste-area').value.trim();
+      const msg = document.getElementById('import-msg');
+
+      if (!text) {
+        msg.className = "text-[11px] font-medium text-rose-500";
+        msg.textContent = "請先選擇 JSON 檔案或貼上 JSON 內容！";
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(text);
+        if (!Array.isArray(parsed)) {
+          throw new Error("JSON 格式需為清單陣列 []");
+        }
+
+        // 正規化匯入項目
+        const validItems = parsed.map((item, idx) => ({
+          id: item.id || (Date.now() + idx),
+          cat: ['general', 'shopping', 'photo'].includes(item.cat) ? item.cat : 'general',
+          text: String(item.text || item.title || '未命名項目'),
+          done: Boolean(item.done || item.completed)
+        }));
+
+        if (validItems.length === 0) {
+          throw new Error("無有效的清單項目");
+        }
+
+        if (overwrite) {
+          currentChecklist = validItems;
+        } else {
+          // 合併：去重或是直接附加
+          currentChecklist = [...currentChecklist, ...validItems];
+        }
+
+        saveChecklist();
+        renderChecklist();
+        toggleImportModal(false);
+      } catch (err) {
+        msg.className = "text-[11px] font-medium text-rose-500";
+        msg.textContent = "解析失敗：" + err.message;
+        msg.classList.remove('hidden');
+      }
     }
 
     function openNotionLink() {
